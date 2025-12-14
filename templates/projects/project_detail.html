@@ -1,0 +1,224 @@
+
+{% extends 'base.html' %}
+
+{% block title %}{{ project.title }} - Engineering Project Library{% endblock %}
+
+{% block content %}
+<section class="project-detail">
+    <div class="container">
+        <div class="project-detail-grid">
+            <!-- Project Image -->
+            <div class="project-detail-image">
+                <img src="{{ project.image.url }}" alt="{{ project.title }}">
+                {% if project.demo_video_link %}
+                <a href="{{ project.demo_video_link }}" target="_blank" class="demo-link">
+                    📹 Watch Demo Video
+                </a>
+                {% endif %}
+            </div>
+
+            <!-- Project Info -->
+            <div class="project-detail-info">
+                <span class="project-tech-badge">{{ project.technology }}</span>
+                <h1 class="project-detail-title">{{ project.title }}</h1>
+                <p class="project-short-desc">{{ project.short_description }}</p>
+                
+                <div class="project-meta">
+                    <div class="meta-item">
+                        <span class="meta-label">Technology:</span>
+                        <span class="meta-value">{{ project.technology }}</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Downloads:</span>
+                        <span class="meta-value">{{ project.downloads }}</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Added:</span>
+                        <span class="meta-value">{{ project.created_at|date:"M d, Y" }}</span>
+                    </div>
+                </div>
+
+                <div class="project-price-section">
+                    <h2 class="price-label">Price</h2>
+                    <p class="price-value">₹{{ project.price }}</p>
+                </div>
+
+                {% if user.is_authenticated %}
+                    {% if has_purchased %}
+                        <div class="alert alert-success">
+                            ✅ You have already purchased this project
+                        </div>
+                        <button onclick="downloadProject('{{ project.id }}')" class="btn-primary btn-large btn-full">
+                            📥 Download Project
+                        </button>
+                    {% else %}
+                        <button onclick="buyProject('{{ project.id }}')" class="btn-primary btn-large btn-full" id="buyBtn">
+                            🛒 Buy Now
+                        </button>
+                    {% endif %}
+                {% else %}
+                    <a href="{% url 'core:login' %}?next={{ request.path }}" class="btn-primary btn-large btn-full">
+                        Login to Purchase
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Project Description -->
+        <div class="project-full-description">
+            <h2>Project Description</h2>
+            <div class="description-content">
+                {{ project.long_description|linebreaks }}
+            </div>
+        </div>
+
+        <!-- Related Projects -->
+        {% if related_projects %}
+        <div class="related-projects">
+            <h2>Related Projects</h2>
+            <div class="projects-grid">
+                {% for related in related_projects %}
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="{{ related.image.url }}" alt="{{ related.title }}">
+                    </div>
+                    <div class="project-content">
+                        <span class="project-tech">{{ related.technology }}</span>
+                        <h3 class="project-title">{{ related.title }}</h3>
+                        <p class="project-description">{{ related.short_description|truncatewords:15 }}</p>
+                        <div class="project-footer">
+                            <span class="project-price">₹{{ related.price }}</span>
+                            <a href="{% url 'core:project_detail' related.slug %}" class="btn-primary btn-small">View</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Payment Modal -->
+<div id="paymentModal" class="modal">
+    <div class="modal-content">
+        <span class="modal-close" onclick="closePaymentModal()">&times;</span>
+        <h2>Processing Payment...</h2>
+        <div class="loader"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+const razorpayKey = '{{ razorpay_key }}';
+const projectId = '{{ project.id }}';
+
+function buyProject(projectId) {
+    const buyBtn = document.getElementById('buyBtn');
+    buyBtn.disabled = true;
+    buyBtn.textContent = 'Processing...';
+    
+    fetch(`/create-order/${projectId}/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken')
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            showToast(data.error, 'error');
+            buyBtn.disabled = false;
+            buyBtn.textContent = '🛒 Buy Now';
+            return;
+        }
+        
+        const options = {
+            key: razorpayKey,
+            amount: data.amount,
+            currency: data.currency,
+            name: 'ProjectLibrary',
+            description: data.name,
+            order_id: data.order_id,
+            handler: function(response) {
+                verifyPayment(response, data.db_order_id);
+            },
+            prefill: {
+                name: '{{ user.get_full_name }}',
+                email: '{{ user.email }}'
+            },
+            theme: {
+                color: '#6366f1'
+            },
+            modal: {
+                ondismiss: function() {
+                    buyBtn.disabled = false;
+                    buyBtn.textContent = '🛒 Buy Now';
+                }
+            }
+        };
+        
+        const razorpay = new Razorpay(options);
+        razorpay.open();
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showToast('Something went wrong. Please try again.', 'error');
+        buyBtn.disabled = false;
+        buyBtn.textContent = '🛒 Buy Now';
+    });
+}
+
+function verifyPayment(response, dbOrderId) {
+    document.getElementById('paymentModal').style.display = 'flex';
+    
+    fetch('/verify-payment/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken')
+        },
+        body: JSON.stringify(response)
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.status === 'success') {
+            window.location.href = `/payment-success/?order_id=${dbOrderId}`;
+        } else {
+            window.location.href = '/payment-failed/';
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        window.location.href = '/payment-failed/';
+    });
+}
+
+function downloadProject(projectId) {
+    // Find the order for this user and project
+    window.location.href = '/dashboard/';
+}
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+function closePaymentModal() {
+    document.getElementById('paymentModal').style.display = 'none';
+}
+</script>
+{% endblock %}

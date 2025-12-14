@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block title %}My Dashboard - Engineering Projects Hub{% endblock %}
+
+{% block content %}
+<section class="dashboard">
+    <div class="container">
+        <div class="dashboard-header">
+            <h1>My Dashboard</h1>
+            <p class="p_1">Welcome back, {{ user.get_full_name|default:user.username }}!</p>
+        </div>
+
+        <div class="dashboard-content">
+            <!-- Sidebar -->
+            <div class="dashboard-sidebar">
+                <div class="user-profile-card">
+                    <div class="profile-avatar">{{ user.username|slice:":1"|upper }}</div>
+                    <h3>{{ user.get_full_name|default:user.username }}</h3>
+                    <p>{{ user.email }}</p>
+                </div>
+                <nav class="dashboard-nav">
+                    <a href="#purchases" class="nav-item active">My Purchases</a>
+                    <a href="{% url 'core:project_list' %}" class="nav-item">Explore Projects</a>
+                    <a href="{% url 'core:custom_request' %}" class="nav-item">Custom Request</a>
+                </nav>
+            </div>
+
+            <!-- Main Content -->
+            <div class="dashboard-main">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">📚</div>
+                        <div class="stat-info">
+                            <h3>{{ orders.count }}</h3>
+                            <p>Total Purchases</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">💰</div>
+                        <div class="stat-info">
+                            <h3>₹{% widthratio orders.count 1 499 %}</h3>
+                            <p>Total Spent</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📥</div>
+                        <div class="stat-info">
+                            <h3>{{ orders.count }}</h3>
+                            <p>Downloads</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="purchases-section">
+                    <h2>My Purchased Projects</h2>
+                    
+                    {% if orders %}
+                    <div class="purchases-list">
+                        {% for order in orders %}
+                        <div class="purchase-card">
+                            <div class="purchase-image">
+                                <img src="{{ order.project.image.url }}" alt="{{ order.project.title }}">
+                            </div>
+                            <div class="purchase-info">
+                                <span class="purchase-tech">{{ order.project.technology }}</span>
+                                <h3>{{ order.project.title }}</h3>
+                                <p>{{ order.project.short_description|truncatewords:20 }}</p>
+                                <div class="purchase-meta">
+                                    <span>Order ID: {{ order.order_id }}</span>
+                                    <span>Purchased: {{ order.created_at|date:"M d, Y" }}</span>
+                                    <span>Amount: ₹{{ order.amount }}</span>
+                                </div>
+                            </div>
+                            <div class="purchase-actions">
+                                <a href="{% url 'core:download_project' order.order_id %}" class="btn-primary">
+                                    📥 Download
+                                </a>
+                                <a href="{% url 'core:project_detail' order.project.slug %}" class="btn-secondary">
+                                    View Details
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="empty-state">
+                        <div class="empty-icon">📦</div>
+                        <h3>No purchases yet</h3>
+                        <p>Start exploring our amazing projects! <pre>
+                        </pre></p>
+                        <a href="{% url 'core:project_list' %}" class="btn-primary">Browse Projects</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

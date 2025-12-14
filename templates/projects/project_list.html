@@ -1,0 +1,89 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Projects - Engineering Projects Hub{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>Explore Projects</h1>
+        <p class="p_1">Explore innovative engineering projects for every domain</p>
+    </div>
+</section>
+
+<section class="projects-listing">
+    <div class="container">
+        <!-- Search and Filter -->
+        <div class="filter-section">
+            <form method="GET" action="{% url 'core:project_list' %}" class="filter-form">
+                <div class="search-box">
+                    <input type="text" name="search" placeholder="Search projects..." value="{{ search_query }}" class="search-input">
+                    <button type="submit" class="search-btn">🔍</button>
+                </div>
+                <div class="filter-box">
+                    <label>Filter by Technology:</label>
+                    <select name="technology" class="filter-select" onchange="this.form.submit()">
+                        <option value="">All Technologies</option>
+                        {% for tech_value, tech_label in technologies %}
+                            <option value="{{ tech_value }}" {% if selected_technology == tech_value %}selected{% endif %}>
+                                {{ tech_label }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </form>
+        </div>
+
+        <!-- Projects Grid -->
+        {% if page_obj %}
+        <div class="projects-grid">
+            {% for project in page_obj %}
+            <div class="project-card">
+                <div class="project-image">
+                    <img src="{{ project.image.url }}" alt="{{ project.title }}">
+                    {% if project.featured %}
+                    <span class="project-badge">Featured</span>
+                    {% endif %}
+                </div>
+                <div class="project-content">
+                    <span class="project-tech">{{ project.technology }}</span>
+                    <h3 class="project-title">{{ project.title }}</h3>
+                    <p class="project-description">{{ project.short_description|truncatewords:15 }}</p>
+                    <div class="project-stats">
+                        <span>📥 {{ project.downloads }} downloads</span>
+                    </div>
+                    <div class="project-footer">
+                        <span class="project-price">₹{{ project.price }}</span>
+                        <a href="{% url 'core:project_detail' project.slug %}" class="btn-primary btn-small">View Details</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        {% if page_obj.has_other_pages %}
+        <div class="pagination">
+            {% if page_obj.has_previous %}
+                <a href="?page=1{% if search_query %}&search={{ search_query }}{% endif %}{% if selected_technology %}&technology={{ selected_technology }}{% endif %}" class="page-link">First</a>
+                <a href="?page={{ page_obj.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if selected_technology %}&technology={{ selected_technology }}{% endif %}" class="page-link">Previous</a>
+            {% endif %}
+
+            <span class="page-current">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if selected_technology %}&technology={{ selected_technology }}{% endif %}" class="page-link">Next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}{% if search_query %}&search={{ search_query }}{% endif %}{% if selected_technology %}&technology={{ selected_technology }}{% endif %}" class="page-link">Last</a>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        {% else %}
+        <div class="no-results">
+            <h3>No projects found</h3>
+            <p>Try adjusting your search or filter criteria</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,62 @@
+<!-- templates/payments/success.html -->
+{% extends 'base.html' %}
+
+{% block title %}Payment Successful - Engineering Projects Hub{% endblock %}
+
+{% block content %}
+<section class="payment-result">
+    <div class="container">
+        <div class="result-card success">
+            <div class="result-icon">✅</div>
+            <h1>Payment Successful!</h1>
+            <p>Thank you for your purchase. Your order has been confirmed.</p>
+            
+            {% if order %}
+            <div class="order-details">
+                <h3>Order Details</h3>
+                <table class="order-table">
+                    <tr>
+                        <td>Order ID:</td>
+                        <td><strong>{{ order.order_id }}</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Project:</td>
+                        <td><strong>{{ order.project.title }}</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Amount Paid:</td>
+                        <td><strong>₹{{ order.amount }}</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Payment ID:</td>
+                        <td><strong>{{ order.razorpay_payment_id }}</strong></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="success-actions">
+                <a href="{% url 'core:download_project' order.order_id %}" class="btn-primary btn-large">
+                    📥 Download Project Now
+                </a>
+                <a href="{% url 'core:dashboard' %}" class="btn-secondary">
+                    Go to Dashboard
+                </a>
+            </div>
+            {% else %}
+            <div class="success-actions">
+                <a href="{% url 'core:dashboard' %}" class="btn-primary btn-large">
+                    Go to Dashboard
+                </a>
+                <a href="{% url 'core:project_list' %}" class="btn-secondary">
+                    Browse More Projects
+                </a>
+            </div>
+            {% endif %}
+
+            <div class="email-notification">
+                <p>📧 A confirmation email has been sent to your registered email address.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

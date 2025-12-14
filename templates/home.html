@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - Engineering Project Library{% endblock %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="container d-flex-row"> 
+        <div class="hero-content-wrapper">
+            <div class="hero-text">
+                <h1 class="hero-title">Unlock Premium Engineering Projects</h1>
+                <p class="hero-subtitle">Your Secure Vault for Ready-Made Engineering Excellence</p>
+                <div class="hero-buttons">
+                    <a href="{% url 'core:project_list' %}" class="btn-primary btn-large">Browse Projects</a>
+                    <a href="{% url 'core:custom_request' %}" class="btn-secondary btn-large">Custom Request</a>
+                </div>
+            </div>
+        </div> 
+                   <div class="hero-icon">
+                     <i class="fas fa-laptop-code"></i>
+                   </div>  
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features">
+    <div class="container">
+        <h2 class="section-title">Why Choose Us?</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-book"></i></div>
+                <h3>Ready-Made Projects</h3>
+                <p>Explore 100+ ready-to-use engineering projects crafted for every tech domain</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-sharp fa-solid fa-download"></i></div>
+
+                <h3>Instant Download</h3>
+                <p>Download your project immediately after successful payment</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-lock"></i></div>
+                <h3>Secure Payments</h3>
+                <p>Protected payments powered by Razorpay’s trusted secure gateway</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-sharp fa-solid fa-laptop-code"></i></div>
+                <h3>Custom Development</h3>
+                <p>Got a Unique Idea? Our custom project service brings it to life</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Projects -->
+{% if featured_projects %}
+<section class="projects-section">
+    <div class="container">
+        <h2 class="section-title">Featured Projects</h2>
+        <div class="projects-grid">
+            {% for project in featured_projects %}
+            <div class="project-card">
+                <div class="project-image">
+                    <img src="{{ project.image.url }}" alt="{{ project.title }}">
+                    <span class="project-badge">Featured</span>
+                </div>
+                <div class="project-content">
+                    <span class="project-tech">{{ project.technology }}</span>
+                    <h3 class="project-title">{{ project.title }}</h3>
+                    <p class="project-description">{{ project.short_description|truncatewords:15 }}</p>
+                    <div class="project-footer">
+                        <span class="project-price">₹{{ project.price }}</span>
+                        <a href="{% url 'core:project_detail' project.slug %}" class="btn-primary btn-small">View Details</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center" style="margin-top: 30px;">
+            <a href="{% url 'core:project_list' %}" class="btn-secondary">View All Projects</a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Recent Projects -->
+{% if recent_projects %}
+<section class="projects-section bg-light">
+    <div class="container">
+        <h2 class="section-title">Recent Projects</h2>
+        <div class="projects-grid">
+            {% for project in recent_projects %}
+            <div class="project-card">
+                <div class="project-image">
+                    <img src="{{ project.image.url }}" alt="{{ project.title }}">
+                </div>
+                <div class="project-content">
+                    <span class="project-tech">{{ project.technology }}</span>
+                    <h3 class="project-title">{{ project.title }}</h3>
+                    <p class="project-description">{{ project.short_description|truncatewords:15 }}</p>
+                    <div class="project-footer">
+                        <span class="project-price">₹{{ project.price }}</span>
+                        <a href="{% url 'core:project_detail' project.slug %}" class="btn-primary btn-small">View Details</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content">
+            <h2>Need a Custom Project?</h2>
+            <p>You imagine it, we build it — 100% customized to your needs</p>
+            <a href="{% url 'core:custom_request' %}" class="btn-primary btn-large">Request Custom Project</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+

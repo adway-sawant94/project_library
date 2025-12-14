@@ -1,0 +1,133 @@
+{
+  "sample_projects": [
+    {
+      "title": "AI-Powered Smart Assistant",
+      "short_description": "Complete home automation using ESP32, sensors, and mobile app control",
+      "long_description": "A comprehensive IoT-based home automation system that allows you to control lights, fans, temperature, and security from your smartphone. Includes ESP32 microcontroller programming, sensor integration, MQTT protocol implementation, and a mobile application for remote control. Perfect for final year engineering students.",
+      "technology": "Gen AI",
+      "price": 999,
+      "featured": true
+    },
+    {
+      "title": "E-Commerce Website with Django",
+      "short_description": "Full-featured online shopping platform with payment integration",
+      "long_description": "A complete e-commerce platform built with Django framework. Features include user authentication, product catalog, shopping cart, order management, Razorpay payment integration, admin dashboard, and responsive design. Includes complete source code and documentation.",
+      "technology": "Web Development",
+      "price": 1499,
+      "featured": true
+    },
+    {
+      "title": "Machine Learning Stock Price Predictor",
+      "short_description": "Predict stock prices using LSTM neural networks and historical data",
+      "long_description": "An advanced machine learning project that uses LSTM (Long Short-Term Memory) neural networks to predict stock prices. Includes data preprocessing, model training, visualization, and a web interface for predictions. Built with Python, TensorFlow, and Flask.",
+      "technology": "Machine Learning",
+      "price": 1299,
+      "featured": true
+    },
+    {
+      "title": "Android News Application",
+      "short_description": "News aggregator app with category filters and offline reading",
+      "long_description": "A modern Android application that fetches news from multiple sources using News API. Features include category-wise news, search functionality, bookmark articles, offline reading with Room database, and push notifications. Complete with source code and APK.",
+      "technology": "Android",
+      "price": 899,
+      "featured": false
+    },
+    {
+      "title": "Facial Recognition Attendance System",
+      "short_description": "Automated attendance system using face recognition and deep learning",
+      "long_description": "An intelligent attendance management system using facial recognition technology. Built with Python, OpenCV, and deep learning models. Includes camera integration, face detection, recognition, database management, and admin dashboard for reports.",
+      "technology": "Machine Learning",
+      "price": 1599,
+      "featured": true
+    },
+    {
+      "title": "Blockchain-based Voting System",
+      "short_description": "Secure and transparent voting platform using blockchain technology",
+      "long_description": "A decentralized voting system built on blockchain technology ensuring transparency and security. Features include voter authentication, encrypted vote casting, immutable vote records, and result verification. Built with Ethereum smart contracts and web interface.",
+      "technology": "Blockchain",
+      "price": 1799,
+      "featured": true
+    },
+    {
+      "title": "Restaurant Management System",
+      "short_description": "Complete POS system for restaurants with order and inventory management",
+      "long_description": "A comprehensive restaurant management system with point-of-sale functionality, table management, order tracking, inventory management, billing, and reporting. Built with Java Swing and MySQL database.",
+      "technology": "Java",
+      "price": 999,
+      "featured": false
+    },
+    {
+      "title": "Chat Application with Real-time Messaging",
+      "short_description": "WhatsApp-like chat application with real-time messaging and media sharing",
+      "long_description": "A real-time chat application built with React and Node.js using Socket.io. Features include one-on-one messaging, group chats, media sharing, typing indicators, online status, and message encryption. Complete full-stack implementation.",
+      "technology": "Web Development",
+      "price": 1199,
+      "featured": false
+    },
+    {
+      "title": "Smart Agriculture Monitoring System",
+      "short_description": "IoT-based system for monitoring soil moisture, temperature, and crop health",
+      "long_description": "An IoT solution for smart farming that monitors soil moisture, temperature, humidity, and crop health. Includes sensor integration, data logging, automated irrigation control, mobile app, and predictive analytics for better crop management.",
+      "technology": "IoT",
+      "price": 1399,
+      "featured": true
+    },
+    {
+      "title": "Medical Image Analysis using Deep Learning",
+      "short_description": "AI-powered system for detecting diseases from medical images",
+      "long_description": "A deep learning project for medical image analysis that can detect diseases from X-rays, CT scans, and MRI images. Uses CNN architecture, transfer learning, and provides classification with confidence scores. Includes trained models and web interface.",
+      "technology": "Machine Learning",
+      "price": 1699,
+      "featured": false
+    },
+    {
+      "title": "Virtual Reality Museum Tour",
+      "short_description": "Immersive VR experience for virtual museum exploration",
+      "long_description": "An immersive virtual reality application that allows users to explore museums virtually. Built with Unity and VR SDK. Features include 360-degree tours, interactive exhibits, audio guides, and multi-platform support (Oculus, HTC Vive).",
+      "technology": "AR/VR",
+      "price": 1899,
+      "featured": false
+    },
+    {
+      "title": "Employee Management System",
+      "short_description": "HR management system for employee records, payroll, and leave management",
+      "long_description": "A comprehensive HRMS solution for managing employee information, attendance, payroll processing, leave management, and performance tracking. Built with Python Django and includes role-based access control and reporting features.",
+      "technology": "Python",
+      "price": 1099,
+      "featured": false
+    },
+    {
+      "title": "Traffic Sign Recognition System",
+      "short_description": "Computer vision system for detecting and classifying traffic signs",
+      "long_description": "An AI-powered system that detects and classifies traffic signs using computer vision and deep learning. Includes real-time detection from video feed, high accuracy classification, and can be integrated with autonomous vehicle systems.",
+      "technology": "Machine Learning",
+      "price": 1299,
+      "featured": false
+    },
+    {
+      "title": "Fitness Tracking Mobile App",
+      "short_description": "Track workouts, calories, and fitness goals with progress analytics",
+      "long_description": "A comprehensive fitness tracking application for Android with workout logging, calorie tracking, progress charts, goal setting, and social features. Includes integration with wearable devices and health APIs.",
+      "technology": "Android",
+      "price": 999,
+      "featured": false
+    },
+    {
+      "title": "Smart Parking System",
+      "short_description": "IoT-based parking management with slot detection and mobile booking",
+      "long_description": "An intelligent parking management system using IoT sensors to detect available parking slots. Features include real-time slot availability, mobile app for booking, automated billing, and navigation to parking spot.",
+      "technology": "IoT",
+      "price": 1199,
+      "featured": false
+    },
+    {
+      "title": "Sentiment Analysis Tool",
+      "short_description": "NLP-based tool for analyzing sentiment in text and social media",
+      "long_description": "A natural language processing project that analyzes sentiment from text data. Includes Twitter sentiment analysis, product review analysis, emotion detection, and visualization dashboard. Built with Python, NLTK, and machine learning.",
+      "technology": "Data Science",
+      "price": 1099,
+      "featured": false
+    }
+  ],
+  "note": "These are sample project ideas. You need to upload actual project files, images, and set prices through the admin panel after setup."
+}

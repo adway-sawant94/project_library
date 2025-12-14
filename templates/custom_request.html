@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+
+{% block title %}Custom Project Request - Engineering Projects Hub{% endblock %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>Create Your Own Project</h1>
+        <p class="p_1">Need something unique? We’ll design it from scratch for you</p>
+    </div>
+</section>
+
+<section class="custom-request-section">
+    <div class="container">
+        <div class="request-content">
+            <div class="request-info">
+                <h2 class="h_2">Why Choose Custom Development? <pre>
+                </pre></h2>
+
+                <div class="benefit-list">
+                    <div class="benefit-item">
+                        <span class="benefit-icon"><i class="fa-solid fa-code"></i></span>
+                        <div>
+                            <h3>Built Just for You</h3>
+                            <p>Receive fully customized solutions designed exactly for your goals and requirements.</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <span class="benefit-icon"><i class="fa-solid fa-cloud-arrow-up"></i></span>
+                        <div>
+                            <h3>Fast Delivery</h3>
+                            <p>Your project—delivered fast, efficiently, and within your deadline.</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <span class="benefit-icon"><i class="fa-notdog fa-solid fa-star"></i></span>
+                        <div>
+                            <h3>Professional Quality</h3>
+                            <p>Get industry-level development with clean code, documentation, and scalability.</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <span class="benefit-icon"><i class="fa-solid fa-hand-holding-hand"></i></span>
+                        <div>
+                            <h3>Support Included</h3>
+                            <p>Support and guidance whenever you need.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="process-steps">
+                    <h3 class="h_2">Our Process</h3>
+                    <ol>
+    <li><strong>Share Your Requirements:</strong> Fill out the form and tell us what you need — project type, technology, features, and deadline.</li>
+    <li><strong>We Review & Connect:</strong> Our team evaluates your request and contacts you within 24 hours to discuss further.</li>
+    <li><strong>Finalize Scope & Pricing:</strong> We discuss features, timeline, and cost — and confirm everything before we begin.</li>
+    <li><strong>Development Starts:</strong> Once approved, our developers begin building your custom project with quality and precision.</li>
+    <li><strong>Stay Updated:</strong> We provide regular updates, previews, and revisions throughout the development process.</li>
+    <li><strong>Project Delivery & Documentation:</strong> Receive your completed project with source code, documentation, and support.</li>
+</ol>
+
+                </div>
+            </div>
+
+            <div class="request-form-wrapper">
+                <div class="form-card">
+                    <h2 class="h_2">Submit Your Request</h2>
+                    <form method="POST" class="custom-request-form">
+                        {% csrf_token %}
+                        
+                        <div class="form-group">
+                            <label for="{{ form.name.id_for_label }}">Full Name *</label>
+                            {{ form.name }}
+                            {% if form.name.errors %}
+                                <span class="error">{{ form.name.errors.0 }}</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="{{ form.email.id_for_label }}">Email Address *</label>
+                            {{ form.email }}
+                            {% if form.email.errors %}
+                                <span class="error">{{ form.email.errors.0 }}</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="{{ form.phone.id_for_label }}">Phone Number *</label>
+                            {{ form.phone }}
+                            {% if form.phone.errors %}
+                                <span class="error">{{ form.phone.errors.0 }}</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="{{ form.project_type.id_for_label }}">Project Type *</label>
+                            {{ form.project_type }}
+                            {% if form.project_type.errors %}
+                                <span class="error">{{ form.project_type.errors.0 }}</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="{{ form.deadline.id_for_label }}">Deadline *</label>
+                                {{ form.deadline }}
+                                {% if form.deadline.errors %}
+                                    <span class="error">{{ form.deadline.errors.0 }}</span>
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="{{ form.budget.id_for_label }}">Budget (₹) *</label>
+                                {{ form.budget }}
+                                {% if form.budget.errors %}
+                                    <span class="error">{{ form.budget.errors.0 }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="{{ form.description.id_for_label }}">Project Description *</label>
+                            {{ form.description }}
+                            {% if form.description.errors %}
+                                <span class="error">{{ form.description.errors.0 }}</span>
+                            {% endif %}
+                            <small>Provide as much detail as possible about your requirements</small>
+                        </div>
+
+                        <button type="submit" class="btn-primary btn-full">Submit Request</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

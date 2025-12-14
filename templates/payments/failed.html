@@ -1,0 +1,41 @@
+<!-- templates/payments/failed.html -->
+{% extends 'base.html' %}
+
+{% block title %}Payment Failed - Engineering Projects Hub{% endblock %}
+
+{% block content %}
+<section class="payment-result">
+    <div class="container">
+        <div class="result-card failed">
+            <div class="result-icon">❌</div>
+            <h1>Payment Failed</h1>
+            <p>Unfortunately, your payment could not be processed.</p>
+            
+            <div class="failure-reasons">
+                <h3>Possible Reasons:</h3>
+                <ul>
+                    <li>Insufficient funds in your account</li>
+                    <li>Payment gateway timeout</li>
+                    <li>Incorrect payment details</li>
+                    <li>Network connectivity issues</li>
+                </ul>
+            </div>
+
+            <div class="failed-actions">
+                <a href="javascript:history.back()" class="btn-primary btn-large">
+                    Try Again
+                </a>
+                <a href="{% url 'core:project_list' %}" class="btn-secondary">
+                    Browse Projects
+                </a>
+            </div>
+
+            <div class="support-info">
+                <p>Need help? Contact our support team:</p>
+                <p>📧 Email: support@engprojects.com</p>
+                <p>📞 Phone: +91 9876543210</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

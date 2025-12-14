@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Engineering Project Library{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet" href="/static/css/style.css">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="{% url 'core:home' %}">
+                    <span class="logo">ProjectLibrary</span>
+                </a>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="{% url 'core:home' %}">Home</a></li>
+                <li><a href="{% url 'core:project_list' %}">Projects</a></li>
+                <li><a href="{% url 'core:custom_request' %}">Custom Request</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'core:dashboard' %}">Dashboard</a></li>
+                    <li><a href="{% url 'core:logout' %}" class="btn-secondary">Logout</a></li>
+                {% else %}
+                    <li><a href="{% url 'core:login' %}" class="btn-secondary">Login</a></li>
+                    <li><a href="{% url 'core:register' %}" class="btn-primary">Sign Up</a></li>
+                {% endif %}
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Messages -->
+    {% if messages %}
+        <div class="messages-container">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                    <button class="close-alert">&times;</button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- Main Content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>ProjectLibrary</h3>
+                    <p>From pre-built projects to fully customized development — everything you need in one place.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="{% url 'core:home' %}">Home</a></li>
+                        <li><a href="{% url 'core:project_list' %}">Projects</a></li>
+                        <li><a href="{% url 'core:custom_request' %}">Custom Request</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="{% url 'core:terms' %}">Terms & Conditions</a></li>
+                        <li><a href="{% url 'core:privacy' %}">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <p>Email: support@projectlibrary.com</p>
+                    <!-- <p>Phone: +91 9421445548</p> -->
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 ProjectLibrary. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/static/js/main.js"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
